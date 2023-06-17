@@ -1,0 +1,224 @@
+openapi: "3.0.2"
+info:
+  title: SQL Query Plugin API
+  version: 1.0.0
+paths:
+  /tables:
+    get:
+      summary: Get accessible tables, Including visualization tables such as metrics, views
+      operationId: getTables
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /tables/{table_name}:
+    get:
+      summary: Get column information of a table
+      operationId: getTableColumns
+      parameters:
+        - in: path
+          name: table_name
+          schema:
+            type: string
+          required: true
+          description: The name of the table
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the table
+                  refSql:
+                    type: string
+                    description: The SQL query to retrieve data from the table
+                  columns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the column
+                        expression:
+                          type: string
+                          description: The SQL expression for the column
+                        type:
+                          type: string
+                          description: The data type of the column
+                        relationship:
+                          type: string
+                          description: The relationship type of the column (if applicable)
+                  primaryKey:
+                    type: string
+                    description: The primary key of the table
+  /metrics:
+    get:
+      summary: Get accessible metrics
+      operationId: getMetrics
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /metrics/{metricName}:
+    get:
+      summary: Get metric information
+      operationId: getMetric
+      parameters:
+        - in: path
+          name: metricName
+          schema:
+            type: string
+          required: true
+          description: The name of the metric
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the metric
+                  baseModel:
+                    type: string
+                    description: The base model used for the metric
+                  dimension:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the dimension
+                        type:
+                          type: string
+                          description: The data type of the dimension
+                  measure:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the measure
+                        type:
+                          type: string
+                          description: The data type of the measure
+                        expression:
+                          type: string
+                          description: The SQL expression for the measure
+                  timeGrain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the time grain
+                        refColumn:
+                          type: string
+                          description: The referenced column for the time grain
+                        dateParts:
+                          type: array
+                          items:
+                            type: string
+                            enum: [YEAR, MONTH, DAY, HOUR, MINUTE, SECOND]
+                          description: The date parts included in the time grain
+  /relationships/{relationshipName}:
+    get:
+      summary: Get relationship information
+      operationId: getRelationship
+      parameters:
+        - in: path
+          name: relationshipName
+          schema:
+            type: string
+          required: true
+          description: The name of the relationship
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the relationship
+                  models:
+                    type: array
+                    items:
+                      type: string
+                      description: The names of the models involved in the relationship
+                  joinType:
+                    type: string
+                    description: The type of join for the relationship
+                  condition:
+                    type: string
+                    description: The condition for the relationship
+  /functions:
+    get:
+      summary: Get available functions, only allow to use functions when column relationship is to-many
+      operationId: getFunctions
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /functions/{functionName}:
+    get:
+      summary: Get function details
+      operationId: getFunctionDetails
+      parameters:
+        - in: path
+          name: functionName
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  parameters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                  example:
+                    type: array
+                    items:
+                      type: string
+                  description:
+                    type: string

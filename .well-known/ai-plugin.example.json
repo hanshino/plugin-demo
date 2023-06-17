@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "GraphMDL Plugin",
+  "name_for_model": "GraphMDL_query_plugin",
+  "description_for_human": "Execute GraphMDL SQL queries on your data. Leverage the power of SQL for data retrieval and manipulation.",
+  "description_for_model": "This plugin provides interfaces to query the usage of GraphMDL SQL syntax. It serves as a reliable resource for users to explore data by relying on the information provided by the plugin API. It helps users discover available functions to compose GraphMDL SQL queries, particularly when dealing with TO_MANY relationships. Please note that when working with GraphMDL tables, table names are case-sensitive. It is crucial to use the correct case when specifying table prefixes and refrain from inventing non-existent tables. Similarly, it is advised not to create functions that are not mentioned within the API functions. By following these guidelines, users can effectively retrieve specific data and perform calculations in GraphMDL SQL.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:{APP_PORT}/public/openapi.yml"
+  },
+  "logo_url": "http://localhost:{APP_PORT}/public/logo.png",
+  "contact_email": "hanshino@github.com",
+  "legal_info_url": "http://www.example.com/legal"
+}
